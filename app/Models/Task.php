@@ -8,7 +8,7 @@ use App\Models\TaskLog;
 
 class Task extends Model
 {
-    protected $fillable = ['title', 'description', 'status', 'due_date', 'assigned_person'];
+    protected $fillable = ['title', 'description', 'status', 'due_date', 'assigned_person', 'created_by'];
     /** @use HasFactory<\Database\Factories\TaskFactory> */
 
     /** Track activity in the Task model */

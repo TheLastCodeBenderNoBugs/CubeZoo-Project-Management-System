@@ -7,7 +7,7 @@ use App\Http\Controllers\TaskLogController;
 use App\Http\Controllers\UserController;
 
 Route::get('/user', function (Request $request) {
-    return $request->user();
+    return response()->json($request->user());
 })->middleware('auth:sanctum');
 
 Route::get('/users', [UserController::class, 'index']); // Get all users
@@ -20,7 +20,7 @@ Route::get('/task-logs', [TaskLogController::class, 'index']);
 Route::get('/tasks', [TaskController::class, 'index']);
 Route::post('/create', [TaskController::class, 'create']);
 Route::put('/update/{id}', [TaskController::class, 'update']);
-Route::delete('/delete/{id}', [TaskController::class, 'destroy']);
+Route::delete('/delete/{id}', [TaskController::class, 'destroy']);   
 
 
 

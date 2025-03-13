@@ -5,6 +5,8 @@ import { Head } from '@inertiajs/react';
 import UserList from "@/components/UserList";
 import UserForm from "@/components/UserForm";
 import { useState } from 'react';
+import useAuthUser from "@/hooks/use-AuthUser";
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,6 +16,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Dashboard() {
+    const { user } = useAuthUser(); /** Get the user role */
 
     const [refresh, setRefresh] = useState(false);
     const fetchUsers = () => setRefresh(!refresh);
@@ -23,6 +26,12 @@ export default function Dashboard() {
             <Head title="Users" />
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+            <h1>Welcome, {user?.name}!</h1>
+            {user?.role !== "user" && (
+                    <button className="bg-blue-500 text-white p-2 rounded-lg">
+                    Admin Settings
+                </button>
+            )}
                 <div className="activity-log-container w-full rounded-lg bg-white p-6 text-black shadow-lg">
                 <UserForm fetchUsers={fetchUsers} />
                 <UserList key={refresh ? 'true' : 'false'} />

@@ -20,9 +20,10 @@ class TaskFactory extends Factory
         $due = fake()->dateTimeBetween('now', '+1 month');
         return [
             'title' => fake()->sentence,
-            'description' => fake()->paragraph,
+            'description' => fake()->realText(500),
             'status' => $status,
             'due_date' => $due,
+            'created_by' => fake()->numberBetween(1,5),
             'assigned_person' => fake()->numberBetween(1,5)
         ];
     }

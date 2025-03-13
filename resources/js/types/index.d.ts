@@ -5,6 +5,13 @@ export interface Auth {
     user: User;
 }
 
+export interface User {
+    id: number;
+    name: string;
+    email: string;
+    role: string; 
+}
+
 export interface BreadcrumbItem {
     title: string;
     href: string;
