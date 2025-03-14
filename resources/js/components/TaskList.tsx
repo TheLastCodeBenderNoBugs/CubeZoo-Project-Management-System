@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import UserDropdown from './AssignTask';
 
 const TaskList = () => {
     interface List {
@@ -38,7 +39,7 @@ const TaskList = () => {
     const [statusFilter, setStatusFilter] = useState<string>('all');
     const [filteredTasks, setFilteredTasks] = useState<List[]>(tasks); // Holds the filtered tasks
 
-    /**Filter function */
+    /** Status Filter Function */
     const filterTasks = () => {
         let updatedTasks = tasks;
 
@@ -48,6 +49,39 @@ const TaskList = () => {
         }
 
         setFilteredTasks(updatedTasks); // Update filtered tasks
+    };
+
+    /** Date Filter Function */
+    const [selectedDate, setSelectedDate] = useState<string>('');
+    const formatDate = (datetime: string) => datetime.split(' ')[0];
+
+    const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const date = event.target.value;
+        setSelectedDate(date);
+
+        if (!date) {
+            setFilteredTasks(tasks); // Show all if no date is selected
+        } else {
+            setFilteredTasks(tasks.filter((task) => formatDate(task.due_date) === date));
+        }
+    };
+
+    /** Search Filter Function - based on search query (title or description) */
+    const [searchQuery, setSearchQuery] = useState<string>('');
+
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const query = event.target.value;
+        setSearchQuery(query);
+
+        if (query.length < 3) {
+            setFilteredTasks(tasks); // Reset to full list if less than 3 characters
+        } else {
+            setFilteredTasks(
+                tasks.filter(
+                    (task) => task.title.toLowerCase().includes(query.toLowerCase()) || task.description.toLowerCase().includes(query.toLowerCase()),
+                ),
+            );
+        }
     };
 
     useEffect(() => {
@@ -90,7 +124,7 @@ const TaskList = () => {
             } else {
                 alert('Failed to delete task');
             }
-        } catch (error:any) {
+        } catch (error: any) {
             console.error('Delete error:', error.response || error);
             alert(`Error deleting task: ${error.response?.data?.message || error.message}`);
             alert('Error deleting task');
@@ -156,6 +190,21 @@ const TaskList = () => {
                         id="search"
                         placeholder="Search..."
                         className="search-input mt-1 w-full rounded-lg border border-gray-300 p-2 text-black md:w-64"
+                        value={searchQuery}
+                        onChange={handleSearch}
+                    />
+                </div>
+
+                <div className="filter-container">
+                    <label htmlFor="filter" className="mr-5 text-sm font-semibold text-gray-700">
+                        Filter By Date:
+                    </label>
+
+                    <input
+                        type="date"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        className="filter-input mt-1 w-full rounded-lg border border-gray-300 p-2 text-black md:w-48"
                     />
                 </div>
 
@@ -207,24 +256,7 @@ const TaskList = () => {
                                 </button>
                             </td>
                             <td className="border px-4 py-2">
-                                <select className="cursor-pointer rounded bg-green-500 px-3 py-1 text-white focus:ring focus:ring-green-300">
-                                    <option value="">Reassign Task</option>
-                                    <option className="text-black" value="Alice Johnson">
-                                        Alice Johnson
-                                    </option>
-                                    <option className="text-black" value="Bob Smith">
-                                        Bob Smith
-                                    </option>
-                                    <option className="text-black" value="Charlie Brown">
-                                        Charlie Brown
-                                    </option>
-                                    <option className="text-black" value="David Lee">
-                                        David Lee
-                                    </option>
-                                    <option className="text-black" value="Emma Watson">
-                                        Emma Watson
-                                    </option>
-                                </select>
+                                <UserDropdown />
                             </td>
                         </tr>
                     ))}

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import UserDropdown from './AssignTask';
 
 interface Task {
     title: string;
@@ -82,19 +83,7 @@ const CreateTask = () => {
                 </div>
                 <div className="mb-5">
                     <label className="mb-1 block font-medium text-gray-700">Assign To Member</label>
-                    <select
-                        id="sltAssign"
-                        name="sltAssign"
-                        value={assigned_person}
-                        onChange={(e) => setAssignedPerson(e.target.value)}
-                        className="w-full rounded-md border border-gray-300 p-2 focus:ring focus:ring-blue-300 sm:w-3/4 md:w-1/2 lg:w-2/4 xl:w-2/4"
-                    >
-                        <option value="">Choose</option>
-                        <option value="completed">Team Member 1</option>
-                        <option value="inprogress">Team Member 2</option>
-                        <option value="waiting">Team Member 3</option>
-                        <option value="block">Team Member 1</option>
-                    </select>
+                    <UserDropdown />
                 </div>
                 <div className="mb-5">
                     <label className="mb-1 block font-medium text-gray-700">Status</label>
