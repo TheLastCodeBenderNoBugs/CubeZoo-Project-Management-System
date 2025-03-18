@@ -164,6 +164,7 @@ const TaskList = () => {
                         value={updatedFields.due_date || ''}
                         onChange={(e) => handleFieldChange('due_date', e.target.value)}
                     />
+
                     <input
                         type="text"
                         className="m-1 w-full rounded-md border border-gray-300 p-2 focus:ring focus:ring-blue-300 sm:w-3/4 md:w-1/2 lg:w-2/4 xl:w-2/4"
